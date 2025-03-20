@@ -7,6 +7,7 @@ const ROUTES = {
   SIGN_IN: "/sign-in",
   // The sign-up page route.
   SIGN_UP: "/sign-up",
+  ASK_QUESTION: "/ask-question",
   PROFILE: (id: string) => `/profile/${id}`,
   TAGS: (id: string) => `/tags/${id}`,
 };

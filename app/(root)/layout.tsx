@@ -1,5 +1,6 @@
 import LeftSidebar from "@/components/navigation/LeftSideBar"; // Import the left sidebar component
 import Navbar from "@/components/navigation/navbar"; // Import the navigation bar component
+import RightSidebar from "@/components/navigation/RightSideBar";
 import React, { ReactNode } from "react"; // Import React and the ReactNode type
 
 // RootLayout component: wraps the entire page with common layout elements (Navbar, Sidebar, etc.)
@@ -22,6 +23,7 @@ const RootLayout = ({ children }: { children: ReactNode }) => {
             {children} {/* Render the page-specific content here */}
           </div>
         </section>
+        <RightSidebar />
       </div>
     </main>
   );

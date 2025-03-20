@@ -3,6 +3,7 @@ import Link from "next/link"; // Next.js link component for client-side navigati
 import React from "react";
 import logo from "../../../public/images/site-logo.svg"; // Import site logo from public folder
 import Theme from "./Theme"; // Import the Theme component for theme switching
+import MobileNavigation from "./MobileNavigation";
 
 // Navbar component: displays the site logo, a global search text, and the theme switcher
 const Navbar = () => {
@@ -35,6 +36,7 @@ const Navbar = () => {
       {/* Theme switcher container */}
       <div className="flex-between gap-5">
         <Theme />
+        <MobileNavigation />
       </div>
     </nav>
   );

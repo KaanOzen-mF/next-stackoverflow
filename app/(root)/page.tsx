@@ -5,8 +5,8 @@ import LocalSearch from "@/components/search/LocalSearch";
 import HomeFilter from "@/components/filters/HomeFilter";
 import QuestionCard from "@/components/cards/QuestionCard";
 import handleError from "@/lib/handlers/error";
-import { ValidationError } from "@/lib/http-errors";
 import { api } from "@/lib/api";
+import { auth } from "@/auth";
 
 const questions = [
   {
@@ -53,18 +53,10 @@ interface SearchParams {
   searchParams: Promise<{ [key: string]: string }>;
 }
 
-const test = async () => {
-  try {
-    return await api.users.getAll();
-  } catch (error) {
-    return handleError(error);
-  }
-};
-
 const Home = async ({ searchParams }: SearchParams) => {
-  const users = await test();
+  const session = await auth();
 
-  console.log(users);
+  console.log("Session: ", session);
   const { query = "", filter = "" } = await searchParams;
 
   const filteredQuestions = questions.filter((question) => {

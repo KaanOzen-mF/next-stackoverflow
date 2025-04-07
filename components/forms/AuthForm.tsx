@@ -125,7 +125,7 @@ const AuthForm = <T extends FieldValues>({
 
         {/* Conditional rendering of the alternative auth navigation link */}
         {formType === "SIGN_IN" ? (
-          <p>
+          <p className="paragraph-regular text-dark400_light700">
             Don't have an account?{" "}
             <Link
               href={ROUTES.SIGN_UP}
@@ -135,7 +135,7 @@ const AuthForm = <T extends FieldValues>({
             </Link>
           </p>
         ) : (
-          <p>
+          <p className="paragraph-regular text-dark400_light700">
             Already have an account?{" "}
             <Link
               href={ROUTES.SIGN_IN}

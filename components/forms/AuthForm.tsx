@@ -6,6 +6,8 @@ import React from "react";
 import { zodResolver } from "@hookform/resolvers/zod";
 import Link from "next/link";
 
+import { useRouter } from "next/navigation";
+import { toast } from "@/hooks/use-toast";
 // Import necessary hooks and types from react-hook-form for form handling.
 import {
   useForm,
@@ -33,6 +35,7 @@ import { Input } from "@/components/ui/input";
 
 // Import route constants to navigate between auth pages.
 import ROUTES from "@/constants/routes";
+import { ActionResponse } from "@/types/global";
 
 // Define the props interface for the AuthForm component. It is generic over T which extends FieldValues.
 // - schema: Zod schema used for validating form data.
@@ -42,7 +45,7 @@ import ROUTES from "@/constants/routes";
 interface AuthFormProps<T extends FieldValues> {
   schema: ZodType<T>;
   defaultValues: T;
-  onSubmit: (data: T) => Promise<{ success: boolean }>;
+  onSubmit: (data: T) => Promise<ActionResponse>;
   formType: "SIGN_IN" | "SIGN_UP";
 }
 
@@ -53,6 +56,8 @@ const AuthForm = <T extends FieldValues>({
   formType,
   onSubmit,
 }: AuthFormProps<T>) => {
+  // Check if the form type is valid. If not, redirect to the sign-in page.
+  const router = useRouter();
   // Initialize the form using react-hook-form.
   // zodResolver is used to integrate Zod schema validation.
   const form = useForm<z.infer<typeof schema>>({
@@ -64,7 +69,25 @@ const AuthForm = <T extends FieldValues>({
   // Replace this with actual logic or use the onSubmit prop as needed.
   const handleSubmit: SubmitHandler<T> = async (data) => {
     // Call the onSubmit function passed in props.
-    await onSubmit(data);
+    const result = (await onSubmit(data)) as ActionResponse;
+
+    if (result?.success) {
+      toast({
+        title: "Success",
+        description:
+          formType === "SIGN_IN"
+            ? "Signed in successfully"
+            : "Signed up successfully",
+      });
+
+      router.push(ROUTES.HOME);
+    } else {
+      toast({
+        title: `Error ${result?.status}`,
+        description: result?.error?.message,
+        variant: "destructive",
+      });
+    }
   };
 
   // Determine the button text based on the form type.
@@ -126,7 +149,7 @@ const AuthForm = <T extends FieldValues>({
         {/* Conditional rendering of the alternative auth navigation link */}
         {formType === "SIGN_IN" ? (
           <p className="paragraph-regular text-dark400_light700">
-            Don't have an account?{" "}
+            Don&apos;t have an account?{" "}
             <Link
               href={ROUTES.SIGN_UP}
               className="paragraph-semibold primary-text-gradient"

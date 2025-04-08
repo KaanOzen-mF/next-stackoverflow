@@ -4,9 +4,12 @@ import React from "react";
 import logo from "../../../public/images/site-logo.svg"; // Import site logo from public folder
 import Theme from "./Theme"; // Import the Theme component for theme switching
 import MobileNavigation from "./MobileNavigation";
+import { auth } from "@/auth";
+import UserAvatar from "@/components/UserAvatar";
 
 // Navbar component: displays the site logo, a global search text, and the theme switcher
-const Navbar = () => {
+const Navbar = async () => {
+  const session = await auth();
   return (
     // Navigation bar with various Tailwind CSS classes:
     // - "flex-between": Custom utility for space-between flex alignment
@@ -36,6 +39,13 @@ const Navbar = () => {
       {/* Theme switcher container */}
       <div className="flex-between gap-5">
         <Theme />
+        {session?.user?.id && (
+          <UserAvatar
+            id={session.user.id}
+            name={session.user.name!}
+            imageUrl={session.user?.image}
+          />
+        )}
         <MobileNavigation />
       </div>
     </nav>

@@ -13,12 +13,17 @@ import React from "react";
 
 // NavLinks component renders navigation links based on sidebarLinks data.
 // It accepts an optional prop isMobileNav to adjust rendering for mobile navigation.
-const NavLinks = ({ isMobileNav = false }: { isMobileNav?: boolean }) => {
+const NavLinks = ({
+  isMobileNav = false,
+  userId,
+}: {
+  isMobileNav?: boolean;
+  userId?: string;
+}) => {
   // Get the current path from the Next.js router
   const pathname = usePathname();
   // For demonstration purposes, a static userId is defined.
   // In a real-world app, this would be derived from the authenticated user's data.
-  const userId = 1;
 
   return (
     <>
